@@ -9,9 +9,9 @@ Amplify.configure(config); // Configure Amplify
 function App() {
   useEffect(() => {
     async function redirectToExternalUrl() {
-      const user = await Amplify.Auth.currentAuthenticatedUser(); // Access Auth from Amplify directly
+      const user = await Amplify.Auth.currentAuthenticatedUser(); 
       if (user) {
-        window.location.href = 'http://trafyai.com/';
+        window.location.href = 'https://trafyai.com/';
       }
     }
     redirectToExternalUrl();
