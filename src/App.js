@@ -6,7 +6,7 @@ import config from './amplifyconfiguration.json';
 
 Amplify.configure(config); // Configure Amplify
 
-function Redirect() {
+function App() {
   useEffect(() => {
     async function redirectToExternalUrl() {
       const user = await Amplify.Auth.currentAuthenticatedUser(); // Access Auth from Amplify directly
@@ -20,4 +20,4 @@ function Redirect() {
   return null; // Renders nothing
 }
 
-export default withAuthenticator(Redirect);
+export default withAuthenticator(App);
