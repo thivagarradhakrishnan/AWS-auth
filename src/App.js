@@ -11,7 +11,7 @@ function App() {
     async function redirectToExternalUrl() {
       const user = await Amplify.Auth.currentAuthenticatedUser(); // Access Auth from Amplify directly
       if (user) {
-        window.location.href = 'http://trafyai.com/';
+        window.location.href = 'https://trafyai.com/';
       }
     }
     redirectToExternalUrl();
