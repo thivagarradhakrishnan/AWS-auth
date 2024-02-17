@@ -17,6 +17,17 @@ function App() {
     redirectToExternalUrl();
   }, []);
 
+  // This useEffect will listen to changes in the AuthState to redirect after sign-in
+  useEffect(() => {
+    const listener = (authState) => {
+      if (authState === 'signedIn') {
+        window.location.href = 'https://trafyai.com/';
+      }
+    };
+    const unsubscribe = Amplify.Hub.listen('auth', listener);
+    return () => unsubscribe();
+  }, []);
+
   return null; // Renders nothing
 }
 
