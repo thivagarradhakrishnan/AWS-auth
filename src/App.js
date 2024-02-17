@@ -6,18 +6,23 @@ import config from './amplifyconfiguration.json';
 
 Amplify.configure(config); // Configure Amplify
 
-function App() {
+function App(signOut,user) {
   useEffect(() => {
     async function redirectToExternalUrl() {
       const user = await Amplify.Auth.currentAuthenticatedUser(); // Access Auth from Amplify directly
       if (user) {
-        window.location.href = 'https://trafyai.com/';
+        window.location.href = 'http://trafyai.com/';
       }
     }
     redirectToExternalUrl();
   }, []);
 
-  return null; // Renders nothing
+  return (
+    <>
+      <h1>Hello {user.username}</h1>
+      <button onClick={signOut}>Sign out</button>
+    </>
+  );
 }
 
 export default withAuthenticator(App);
