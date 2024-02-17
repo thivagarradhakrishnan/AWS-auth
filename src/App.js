@@ -1,34 +1,30 @@
-import React, { useEffect } from 'react';
-import { Amplify } from 'aws-amplify';
+import { useEffect } from 'react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
+import { Hub } from '@aws-amplify/core'; // Import Hub from @aws-amplify/core
 import '@aws-amplify/ui-react/styles.css';
-import config from './amplifyconfiguration.json';
 
-Amplify.configure(config); // Configure Amplify
-
-function App() {
+function App({ signOut, user }) {
   useEffect(() => {
-    async function redirectToExternalUrl() {
-      const user = await Amplify.Auth.currentAuthenticatedUser(); 
-      if (user) {
-        window.location.href = 'https://trafyai.com/';
-      }
-    }
-    redirectToExternalUrl();
-  }, []);
-
-  // This useEffect will listen to changes in the AuthState to redirect after sign-in
-  useEffect(() => {
-    const listener = (authState) => {
-      if (authState === 'signedIn') {
+    const handleAuthStateChange = (state) => {
+      if (state === 'signedin') {
         window.location.href = 'https://trafyai.com/';
       }
     };
-    const unsubscribe = Amplify.Hub.listen('auth', listener);
-    return () => unsubscribe();
+
+    Hub.listen('auth', handleAuthStateChange);
+
+    return () => {
+      // Clean up the listener when the component unmounts
+      Hub.remove('auth', handleAuthStateChange);
+    };
   }, []);
 
-  return null; // Renders nothing
+  return (
+    <>
+      <h1>Hello {user.username}</h1>
+      <button onClick={signOut}>Sign out</button>
+    </>
+  );
 }
 
 export default withAuthenticator(App);
