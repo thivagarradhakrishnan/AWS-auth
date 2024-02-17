@@ -1,30 +1,23 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import { Hub } from '@aws-amplify/core'; // Import Hub from @aws-amplify/core
 import '@aws-amplify/ui-react/styles.css';
+import config from './amplifyconfiguration.json';
 
-function App({ signOut, user }) {
+Amplify.configure(config); // Configure Amplify
+
+function App() {
   useEffect(() => {
-    const handleAuthStateChange = (state) => {
-      if (state === 'signedin') {
+    async function redirectToExternalUrl() {
+      const user = await Amplify.Auth.currentAuthenticatedUser(); // Access Auth from Amplify directly
+      if (user) {
         window.location.href = 'https://trafyai.com/';
       }
-    };
-
-    Hub.listen('auth', handleAuthStateChange);
-
-    return () => {
-      // Clean up the listener when the component unmounts
-      Hub.remove('auth', handleAuthStateChange);
-    };
+    }
+    redirectToExternalUrl();
   }, []);
 
-  return (
-    <>
-      <h1>Hello {user.username}</h1>
-      <button onClick={signOut}>Sign out</button>
-    </>
-  );
+  return null; // Renders nothing
 }
 
 export default withAuthenticator(App);
