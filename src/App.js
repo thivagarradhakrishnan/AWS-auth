@@ -1,4 +1,5 @@
-import { Amplify, Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
+import { Amplify} from 'aws-amplify';
 import { useEffect } from 'react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
