@@ -1,24 +1,29 @@
-import { Amplify } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { Amplify, Auth } from 'aws-amplify';
+import { useEffect } from 'react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 
 Amplify.configure(config);
 
-function App({ signOut, user }) {
-  // Function to redirect to https://trafyai.com/
-  const redirectToExternalSite = () => {
-    window.location.href = 'https://trafyai.com/';
-  };
+function App() {
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        // Check if the user is already signed in
+        const user = await Auth.currentAuthenticatedUser();
+        if (user) {
+          // If user is signed in, redirect to 'https://trafyai.com/'
+          window.location.href = 'https://trafyai.com/';
+        }
+      } catch (error) {
+        console.log('User not signed in');
+      }
+    };
 
-  return (
-    <>
-      <h1>Hello {user.username}</h1>
-      <button onClick={signOut}>Sign out</button>
-      {/* Add a button to redirect to https://trafyai.com/ */}
-      <button onClick={redirectToExternalSite}>Go to Trafyai</button>
-    </>
-  );
+    checkUser();
+  }, []);
+
+  return null; // No need to render anything in this component
 }
 
-export default withAuthenticator(App);
+export default App;
