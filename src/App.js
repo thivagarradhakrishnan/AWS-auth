@@ -5,14 +5,18 @@ import config from './amplifyconfiguration.json';
 
 Amplify.configure(config);
 
-// Function to redirect to https://trafyai.com/
-const redirectToExternalSite = () => {
-  window.location.href = 'https://trafyai.com/';
-};
+function App({ signOut, user }) {
+  const redirectToExternalSite = () => {
+    window.location.href = 'https://trafyai.com/';
+  };
 
-// Wrap the App component with withAuthenticator
-export default withAuthenticator(() => null, { onAuthUIStateChange: (authState) => {
-  if (authState === 'signedIn') {
-    redirectToExternalSite();
-  }
-}});
+  return (
+    <>
+      <h1>Hello {user.username}</h1>
+      <button onClick={signOut}>Sign out</button>
+      <button onClick={redirectToExternalSite}>Go to Trafyai</button>
+    </>
+  );
+}
+
+export default withAuthenticator(App);
