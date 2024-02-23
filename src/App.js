@@ -13,12 +13,12 @@ const handleAuthUIStateChange = (authState, authData) => {
 };
 
 function App({ signOut, user }) {
-  // return (
-  //   <>
-  //     <h1>Hello {user.username}</h1>
-  //     <button onClick={signOut}>Sign out</button>
-  //   </>
-  // );
+  return (
+    <>
+      <h1>Hello {user.username}</h1>
+      <button onClick={signOut}>Sign out</button>
+    </>
+  );
 }
 
 export default withAuthenticator(App, { onAuthUIStateChange: handleAuthUIStateChange });
