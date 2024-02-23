@@ -1,24 +1,25 @@
-import { Amplify } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 
 Amplify.configure(config);
 
-function App({ signOut, user }) {
-  // Function to redirect to https://trafyai.com/
-  const redirectToExternalSite = () => {
+// Define the callback function triggered on authentication UI state change
+const handleAuthUIStateChange = (authState, authData) => {
+  if (authState === 'signIn' || authState === 'signUp') {
     window.location.href = 'https://trafyai.com/';
-  };
+  }
+};
 
-  return (
-    <>
-      <h1>Hello {user.username}</h1>
-      <button onClick={signOut}>Sign out</button>
-      {/* Add a button to redirect to https://trafyai.com/ */}
-      <button onClick={redirectToExternalSite}>Go to Trafyai</button>
-    </>
-  );
-}
+// function App({ signOut, user }) {
+//   return (
+//     <>
+//       <h1>Hello {user.username}</h1>
+//       <button onClick={signOut}>Sign out</button>
+//     </>
+//   );
+// }
 
-export default withAuthenticator(App);
+// Wrap the App component with withAuthenticator and pass handleAuthUIStateChange as onAuthUIStateChange callback
+export default withAuthenticator(App, { onAuthUIStateChange: handleAuthUIStateChange });
