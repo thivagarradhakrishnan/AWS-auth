@@ -1,36 +1,24 @@
 import { Amplify } from 'aws-amplify';
-import { withAuthenticator, AmplifyAuthenticator } from '@aws-amplify/ui-react'; // Importing AmplifyAuthenticator
+import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
 
 Amplify.configure(config);
 
-const MyCustomAuthenticator = withAuthenticator(props => {
-  const signOut = async () => {
-    await Amplify.Auth.signOut(); // Adjusting the usage of Amplify.Auth
-    window.location.href = '/'; // Redirect to home page after signing out
-  };
-
-  const redirectToExternalUrl = (url) => {
-    window.location.href = url; // Redirect to external URL
-  };
-
-  const handleSignIn = () => {
-    // Redirect to traffyai.com after signing in
-    redirectToExternalUrl('https://trafyai.com');
-  };
-
-  const handleSignUp = () => {
-    // Redirect to traffyai.com after creating an account
-    redirectToExternalUrl('https://trafyai.com');
+function App({ signOut, user }) {
+  // Function to redirect to https://trafyai.com/
+  const redirectToExternalSite = () => {
+    window.location.href = 'https://trafyai.com/';
   };
 
   return (
     <>
-      <h1>Hello {props.user.username}</h1>
+      <h1>Hello {user.username}</h1>
       <button onClick={signOut}>Sign out</button>
+      {/* Add a button to redirect to https://trafyai.com/ */}
+      <button onClick={redirectToExternalSite}>Go to Trafyai</button>
     </>
   );
-});
+}
 
-export default MyCustomAuthenticator;
+export default withAuthenticator(App);
