@@ -5,6 +5,29 @@ import config from './amplifyconfiguration.json';
 import React, {useEffect} from 'react';
 Amplify.configure(config);
 
+const formFields = {
+  signUp: {
+    email: {
+      order: 1
+    },
+    family_name: {
+      order: 2
+    },
+    preferred_username: {
+      order: 3
+    },
+    birthdate: {
+      order: 4
+    },
+    password: {
+      order: 5
+    },
+    confirm_password: {
+      order: 6
+    }
+    }
+  }
+
 function App({ signOut, user }) {
   // Function to redirect to https://trafyai.com/
   const redirectToExternalSite = () => {
@@ -22,4 +45,8 @@ function App({ signOut, user }) {
   );
 }
 
-export default withAuthenticator(App);
+export default withAuthenticator(App, {
+  signUpConfig: {
+    signUpFields: formFields.signUp
+  }
+});
