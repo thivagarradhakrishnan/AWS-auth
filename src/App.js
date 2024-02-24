@@ -28,6 +28,7 @@ const formFields = {
     }
   }
 
+
 function App({ signOut, user }) {
   // Function to redirect to https://trafyai.com/
   const redirectToExternalSite = () => {
@@ -38,9 +39,7 @@ function App({ signOut, user }) {
    },[]);
   return (
     <>
-      {/* <h1>Hello {user.username}</h1>
-      <button onClick={signOut}>Sign out</button>
-      <button onClick={redirectToExternalSite}>Go to Trafyai</button> */}
+      
     </>
   );
 }
